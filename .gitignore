@@ -1,0 +1,45 @@
+# Virtual Environment
+venv/
+.env
+*.pyc
+__pycache__/
+
+# Python-related
+*.log
+*.sqlite3
+*.db
+*.pyo
+*.pyd
+*.pdb
+*.py[cod]
+
+# Alembic Migrations
+alembic/versions/*.pyc
+alembic/versions/*.pyo
+alembic/versions/*.pyd
+alembic/versions/*.pdb
+
+# Database Files
+*.db
+*.sqlite
+instance/
+migrations/
+
+# Cache
+*.cache
+*.DS_Store
+Thumbs.db
+
+# VSCode and JetBrains IDE
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+*.out
+*.err
+
+# Render / Railway Deployment
+*.env
+.env.*
