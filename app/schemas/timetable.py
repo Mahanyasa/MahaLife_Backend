@@ -1,14 +1,14 @@
 from pydantic import BaseModel
-from datetime import time
+from datetime import datetime
 
 class TimeTableCreate(BaseModel):
     day: str
-    start_time: time
-    end_time: time
+    start_datetime: datetime  # ✅ Changed to datetime
+    end_datetime: datetime  # ✅ Changed to datetime
     activity: str
 
 class TimeTableResponse(TimeTableCreate):
     id: int
 
     class Config:
-        orm_mode = True  # ✅ Works with Pydantic v1 & v2
+        orm_mode = True

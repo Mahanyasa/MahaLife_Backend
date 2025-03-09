@@ -3,33 +3,38 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.timetable import TimeTable
 from app.schemas.timetable import TimeTableCreate, TimeTableResponse
-import os
 
 router = APIRouter()
 
-@router.post("/timetable", response_model=TimeTableResponse)
+@router.post("/", response_model=TimeTableResponse)
 def add_timetable_entry(entry: TimeTableCreate, db: Session = Depends(get_db)):
-    """
-    Add a new entry to the timetable.
-    """
-    new_entry = TimeTable(
-        day=entry.day,
-        start_time=entry.start_time,
-        end_time=entry.end_time,
-        activity=entry.activity
-    )
+    print(f"🔥 Received Request: {entry}")  # Debugging log
 
-    db.add(new_entry)
-    db.commit()
-    db.refresh(new_entry)
+    try:
+        new_entry = TimeTable(
+            day=entry.day,
+            start_datetime=entry.start_datetime,
+            end_datetime=entry.end_datetime,
+            activity=entry.activity
+        )
 
-    return new_entry
+        db.add(new_entry)
+        db.commit()
+        db.refresh(new_entry)
 
-@router.get("/timetable", response_model=list[TimeTableResponse])
+        print(f"✅ Stored Timetable Entry: {new_entry}")  # Debugging log
+        return new_entry
+
+    except Exception as e:
+        print(f"❌ Error: {e}")  # Debugging log
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/", response_model=list[TimeTableResponse])
 def get_timetable(db: Session = Depends(get_db)):
-    """
-    Retrieve the complete timetable.
-    """
-    timetable_entries = db.query(TimeTable).all()
-    return timetable_entries
-
+    try:
+        timetable_entries = db.query(TimeTable).all()
+        print(f"✅ Retrieved Entries: {timetable_entries}")  # Debugging log
+        return timetable_entries
+    except Exception as e:
+        print(f"❌ Error: {e}")  # Debugging log
+        raise HTTPException(status_code=500, detail=str(e))
