@@ -3,6 +3,7 @@ from app.database import engine, Base
 from app.routers import auth
 from app.routers import timetable
 from app.routers import bookmark
+from app.routers import task
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -27,6 +28,7 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(timetable.router, prefix="/timetable", tags=["Timetable"])
 app.include_router(bookmark.router, prefix="/bookmark", tags=["Bookmark"])
+app.include_router(task.router, prefix="/task", tags=["Task"])
 
 @app.get("/")
 def home():
